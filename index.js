@@ -1,13 +1,15 @@
-console.log("test!");
+const logEvents = require('./logEvents');
 
-//**npm i nodemon -g** => it monitors your files and when you save it automatically restarts the server so we're not always have to restart
-//**npm init **/
-//*npm i uuid */ =>  it allow us to generate ids different for each enttry
- 
 
-const {format} = require('date-fns');
-const {v4:uuid} = require('uuid');
+const EventEmitter = require('events');
 
-console.log(format(new Date(),'yyyyMMdd\tHH:mm:ss'))
+class MyEmitter extends EventEmitter {};
 
-console.log(uuid())
+//initialize object 
+const myEmitter = new MyEmitter();
+
+myEmitter.on('log',(msg) => logEvents(msg));
+
+setTimeout(() => {
+    myEmitter.emit('log','Log event emitted!!')
+}, 2000);
